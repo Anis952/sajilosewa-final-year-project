@@ -1,0 +1,30 @@
+
+ 
+
+
+Completed # Design of homepages
+
+
+ Next meetings milestone
+Sign In
+Sign Up 
+
+Step =2
+Create Facebook App
+Sign In With Facebook
+Send Welcome Email
+Refactor code
+Customer Base Template
+
+Profile Page
+Customer Model
+Profile Avatar
+Notification
+Profile Password
+
+
+Setting up Firebase
+Mobile Phone Form
+Send SMS
+Verification Code
+Change Mobile Number
