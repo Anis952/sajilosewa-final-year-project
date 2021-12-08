@@ -10,7 +10,7 @@ def send_welcome_email(sender, instance, created, **kwargs):
   if created and instance.email:
     # Send the welcome email
     body = render_to_string(
-      'mainapp/templates/welcome_email.html',
+      'welcome_email_template.html',
       {
         'name': instance.get_full_name()
       }

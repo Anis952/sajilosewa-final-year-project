@@ -3,6 +3,23 @@ from django.urls import path,include
 from django.contrib import admin
 from django.contrib.auth import views as auth_views 
 from mainapp import views
+from mainapp.customer import views as customer_views
+from mainapp.courier import views as courier_views
+
+
+
+customer_urlpatters = [
+    path('', customer_views.home, name="home"),
+  
+]
+
+courier_urlpatters = [
+    path('', courier_views.home, name="home"),
+    
+]
+
+
+
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -15,7 +32,7 @@ urlpatterns = [
 
 
 
-    path('customer/', views.customer),
-    path('courier/', views.courier),
+    path('customer/', include((customer_urlpatters, 'customer'))),
+    path('courier/', include((courier_urlpatters, 'courier'))),
     path('', include('social_django.urls', namespace='social')),
 ]   

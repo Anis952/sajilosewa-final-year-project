@@ -8,13 +8,7 @@ from . import forms
 def home(request):
     return render(request, 'home.html')
 
-@login_required()
-def customer(request):
-    return render(request, 'customer.html')   
 
-@login_required()
-def courier(request):
-    return render(request, 'courier.html') 
 
 # def sign_in(request):
 #     return render(request, 'sign-in.html') 

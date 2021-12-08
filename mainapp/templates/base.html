@@ -27,11 +27,11 @@
 
           <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav">
-              <li href="/courier/" class="nav-item" {% if request.GET.next != '/courier/' %}active{% endif %}>
-                <a class="nav-link active" aria-current="page" href="/customer/">Customer</a>
+              <li  class="nav-item" {% if request.GET.next != '/courier/' %}active{% endif %}>
+                <a class="nav-link active" aria-current="page"  href="/sign-in/?next=/customer/">Customer</a>
               </li>
               <li class="nav-item"  {% if request.GET.next == '/courier/' %}active{% endif %}>
-                <a class="nav-link active" aria-current="page" href="/courier/">Courier</a>
+                <a class="nav-link active" aria-current="page" href="/sign-in/?next=/courier/">Courier</a>
               </li>
               <!-- <li class="nav-item dropdown">
                 <a class="nav-link dropdown-toggle" href="#" aria-expanded="false">
