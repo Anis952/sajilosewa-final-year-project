@@ -10,6 +10,7 @@ from mainapp.courier import views as courier_views
 
 customer_urlpatters = [
     path('', customer_views.home, name="home"),
+    path('profile/', customer_views.profile_page, name="profile"),
   
 ]
 
