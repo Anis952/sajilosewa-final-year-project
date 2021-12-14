@@ -1,10 +1,13 @@
 
 from django.urls import path,include
 from django.contrib import admin
-from django.contrib.auth import views as auth_views 
+from django.contrib.auth import views as auth_views
+from delivery.settings import MEDIA_ROOT 
 from mainapp import views
 from mainapp.customer import views as customer_views
 from mainapp.courier import views as courier_views
+from django.conf import settings
+from django.conf.urls.static import static
 
 
 
@@ -37,3 +40,7 @@ urlpatterns = [
     path('courier/', include((courier_urlpatters, 'courier'))),
     path('', include('social_django.urls', namespace='social')),
 ]   
+
+
+if settings.DEBUG:
+    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
