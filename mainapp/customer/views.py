@@ -23,6 +23,8 @@ def profile_page(request):
 
 
     if request.method =="POST":
+
+     if request.POST.get('action')=='update_profile':
         user_form = forms.BasicUserForm(request.POST,instance=request.user)
         customer_form = forms.BasicCustomerForm(request.POST, request.FILES, instance=request.user.customer)
         if user_form.is_valid() and customer_form.is_valid():
@@ -32,6 +34,19 @@ def profile_page(request):
                 messages.success(request,'Your profile has been updated')
 
                 return redirect(reverse('customer:profile'))
+
+     elif request.POST.get('action')=='update_password':
+
+        password_form = PasswordChangeForm(request.user,request.POST)
+        if password_form.is_valid():
+            user = password_form.save()
+            update_session_auth_hash(request, user)
+
+            messages.success(request,'Your password has been updated')
+
+            return redirect(reverse('customer:profile'))
+
+
 
     return render(request,'customer/profile.html',{
         "user_form": user_form,
