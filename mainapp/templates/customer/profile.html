@@ -10,10 +10,23 @@
       {% bootstrap_form user_form %}
       {% bootstrap_form customer_form %}
       <input type="hidden" name="action" value="update_profile">
-      <button type="submit" class="btn btn-warning">Save</button>
+      <button type="submit" class="btn btn-dark">Save</button>
     </form>
   </div>
 </div>
+
+
+<!-- <b class="text-secondary">Change password</b><br />
+<div class="card bg-white mt-2 mb-5">
+  <div class="card-body">
+    <form method="POST" enctype="multipart/form-data">
+      {% csrf_token %}
+      {% bootstrap_form password_form %}
+      <input type="hidden" name="action" value="update_password">
+      <button type="submit" class="btn btn-dark">Save</button>
+    </form>
+  </div>
+</div> -->
 {% endblock %}
 
 

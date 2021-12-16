@@ -47,8 +47,8 @@
         </div>
         {% else %}
         <form class="form-inline">
-          <span class="mr-4 bg-success">{{ request.user.get_full_name|title }}</span>
-          <a href = "/sign-out" class="btn btn-outline-success" >Sign Out</a>
+          <span class="mr-4 bg-warning">{{ request.user.get_full_name|title }}</span>
+          <a href = "/sign-out" class="btn btn-outline-warning" >Sign Out</a>
 
         </form>
         {% endif %}
@@ -60,6 +60,28 @@
 
  
       <footer class="text-center mt-5 mb-5">Copyright& anishthapa</footer>
+
+      <script src="https://unpkg.com/bootoast@1.0.1/dist/bootoast.min.js"></script>
+      <link rel="stylesheet" href="https://unpkg.com/bootoast@1.0.1/dist/bootoast.min.css">
+
+   <script>
+     function toast(message, type){
+       bootoast.toast({
+         position: 'leftButtom',
+         message,
+         type,
+       })
+     }
+
+     {% if messages %}
+
+     {% for message in message%}
+     toast('{{ message }}','{{message.tags}}');
+     {% endfor %}
+     {% endif %}
+   </script>
+
+
     
 </body>
 </html>

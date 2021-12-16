@@ -2,7 +2,9 @@ from django.shortcuts import render,redirect
 from django.contrib.auth.decorators import login_required
 from mainapp.customer import forms
 from django.urls import reverse
-
+from django.contrib import messages
+from django.contrib.auth.forms import PasswordChangeForm
+from django.contrib.auth import update_session_auth_hash
 
 
 
@@ -17,6 +19,7 @@ def home(request):
 def profile_page(request):
     user_form = forms.BasicUserForm(instance=request.user)
     customer_form = forms.BasicCustomerForm(instance=request.user.customer)
+    password_form = PasswordChangeForm(request.user)
 
 
     if request.method =="POST":
@@ -26,11 +29,14 @@ def profile_page(request):
                 user_form.save()
                 customer_form.save()
 
+                messages.success(request,'Your profile has been updated')
+
                 return redirect(reverse('customer:profile'))
 
     return render(request,'customer/profile.html',{
         "user_form": user_form,
-        "customer_form": customer_form
+        "customer_form": customer_form,
+        "password_form": password_form
 
 
     })
