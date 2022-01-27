@@ -11,6 +11,8 @@ https://docs.djangoproject.com/en/1.11/ref/settings/
 """
 
 import os
+from pydoc import stripid
+
 from pathlib import Path
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
@@ -156,3 +158,12 @@ EMAIL_PORT = 25
 EMAIL_HOST_USER = 'thapaanes03@gmail.com'
 EMAIL_HOST_PASSWORD = 'Anishthapa1@'
 DEFAULT_FROM_EMAIL = 'sajilo sewa <no-reply@delivery.localhost>'
+
+FIREBASE_ADMIN_CREDENTIAL = os.path.join(BASE_DIR,"delivery-ea109-firebase-adminsdk-sz7t3-e2a020d5f3"),
+
+
+STRIPE_API_PUBLIC_KEY = "pk_test_51KM2KyIqWedkZUADY2Y4eV6l0n7W1O3TVtaC8goDwrnNPf3SPLgoBoaaVhl0bKZsoUER0Y9xXZa8vjc9kLFfUPvv00pi8gwG5H"
+STRIPE_API_SECRET_KEY = "sk_test_51KM2KyIqWedkZUADPudbYX3UmlQ5bSDYPsCQSVkIJQG9riIzuGclMR3oedyvjNSwMPuqQrTXITgT01fR1jFtzziX0027TFEhbT"
+
+
+# "stripe.api_SECRET_key = <sk_test_51KM2KyIqWedkZUADPudbYX3UmlQ5bSDYPsCQSVkIJQG9riIzuGclMR3oedyvjNSwMPuqQrTXITgT01fR1jFtzziX0027TFEhbT>"

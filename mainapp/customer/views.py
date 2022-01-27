@@ -1,3 +1,6 @@
+# import firebase_admin
+# from firebase_admin import credentials,auth
+import stripe
 from django.shortcuts import render,redirect
 from django.contrib.auth.decorators import login_required
 from mainapp.customer import forms
@@ -5,9 +8,12 @@ from django.urls import reverse
 from django.contrib import messages
 from django.contrib.auth.forms import PasswordChangeForm
 from django.contrib.auth import update_session_auth_hash
+from django.conf import Settings, settings
 
+# cred = credentials.Certificate(Settings.FIREBASE_ADMIN_CREDENTIAL)
+# firebase_admin.initialize_app(cred)
 
-
+stripe.api_key = settings.STRIPE_API_SECRET_KEY 
 
 # Create your views here.
 @login_required()
@@ -46,6 +52,15 @@ def profile_page(request):
 
             return redirect(reverse('customer:profile'))
 
+    #  elif request.POST.get('action')=='update_phone':
+    #         firebase_user = auth.verify_id_token(request.POST.get('id_token'))
+
+    #         request.user.customer.phone_number = firebase_user['phone_number']
+    #         request.user.customer.save()
+    #         return redirect(reverse('customer:profile'))
+
+
+
 
 
     return render(request,'customer/profile.html',{
@@ -57,4 +72,50 @@ def profile_page(request):
     })
 
  
+@login_required(login_url="/sign-in/?next=/customer/")
+def payment_method_page(request):
+    current_customer = request.user.customer
 
+    # Remove existing card
+    if request.method == "POST":
+        stripe.PaymentMethod.detach(current_customer.stripe_payment_method_id)
+        current_customer.stripe_payment_method_id = ""
+        current_customer.stripe_card_last4 = ""
+        current_customer.save()
+        return redirect(reverse('customer:payment_method'))
+
+    # Save stripe customer infor
+    if not current_customer.stripe_customer_id:
+        customer = stripe.Customer.create()
+        current_customer.stripe_customer_id = customer['id']
+        current_customer.save()
+
+    # Get Stripe payment method
+    stripe_payment_methods = stripe.PaymentMethod.list(
+        customer = current_customer.stripe_customer_id,
+        type = "card",
+    )
+
+    print(stripe_payment_methods)
+
+    if stripe_payment_methods and len(stripe_payment_methods.data) > 0:
+        payment_method = stripe_payment_methods.data[0]
+        current_customer.stripe_payment_method_id = payment_method.id
+        current_customer.stripe_card_last4 = payment_method.card.last4
+        current_customer.save()
+    else:
+        current_customer.stripe_payment_method_id = ""
+        current_customer.stripe_card_last4 = ""
+        current_customer.save()
+
+    if not current_customer.stripe_payment_method_id:
+        intent = stripe.SetupIntent.create(
+            customer = current_customer.stripe_customer_id
+        )
+
+        return render(request, 'customer/payment_method.html', {
+            "client_secret": intent.client_secret,
+            "STRIPE_API_PUBLIC_KEY": settings.STRIPE_API_PUBLIC_KEY,
+        })
+    else:
+        return render(request, 'customer/payment_method.html')
