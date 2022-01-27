@@ -15,6 +15,7 @@ customer_urlpatters = [
     path('', customer_views.home, name="home"),
     path('profile/', customer_views.profile_page, name="profile"),
     path('payment_method/', customer_views.payment_method_page, name="payment_method"),
+    path('create_job/', customer_views.create_job_page, name="create_job"),
   
 ]
 
