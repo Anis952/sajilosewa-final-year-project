@@ -1,5 +1,32 @@
 {% extends 'base.html' %}
 
+
+{% block head %}
+<style>
+
+
+  #tabs a {
+    color: black;
+  }
+
+  #tabs a:hover {
+    color: orange;
+    text-decoration: none;
+  }
+
+  #pills-tab a.active {
+    color: orange;
+  }
+
+  #pickup-map,
+  #delivery-map {
+    height: 100%;
+  }
+</style>
+
+
+{% endblock %}
+
 {% block content %}
 <div class="container mt-4">
     <div class="row">
@@ -18,12 +45,50 @@
         </div>
         <!-- RIGHT SIDE -->
         <div class="col-lg-8">
-            <div class = "card mb-5">
-                <div class = "card-body">
 
+            <!-- Steps tabs -->
+            <div class="card mb-5">
+              <div class="card-body">
+                <ul class="nav nav-tabs nav-justified align-center  " id="myTab" role="tablist">
+                  <li class="nav-item" role="presentation">
+                    <button class="active" id="home-info-tab" data-bs-toggle="tab" data-bs-target="#home-info"  role="tab" aria-controls="home-info" aria-selected="true">Item info</button>
+                  </li>
+                  <i class="fas fa-chevron-right"></i>
+                  <li class="nav-item" role="presentation">
+                    <button id="pickup-tab" data-bs-toggle="tab" data-bs-target="#pickup" type="button" role="tab" aria-controls="pickup" aria-selected="false">Pickup</button>
+                  </li>
+                  <i class="fas fa-chevron-right"></i>
+                  <li class="nav-item" role="presentation">
+                    <button  id="delivery-tab" data-bs-toggle="tab" data-bs-target="#delivery" type="button" role="tab" aria-controls="delivery" aria-selected="false">Delivery</button>
+                  </li>
+                  <i class="fas fa-chevron-right"></i>
+                  <li class="nav-item" role="presentation">
+                    <button  id="payment-tab" data-bs-toggle="tab" data-bs-target="#payment" type="button" role="tab" aria-controls="payment" aria-selected="false">Payment</button>
+                  </li>
+                </ul>
+      
+                  </div>
                 </div>
-            </div>
+                <!-- Steps forms -->
+                <b>CEATE A JOB</b>
+                <div class="tab-content" id="myTabContent">
+                  <div class="tab-pane fade show active" id="home-info" role="tabpanel" aria-labelledby="home-info-tab">
+                    <h1>Item info</h1>
+                  </div>
+                  <div class="tab-pane fade" id="pickup" role="tabpanel" aria-labelledby="pickup-tab">
+                    <h1>Pickup</h1>
+                  </div>
+                  <div class="tab-pane fade" id="delivery" role="tabpanel" aria-labelledby="delivery-tab">
+                    <h1>Delivery</h1>
+                  </div>
+                  <div class="tab-pane fade" id="payment" role="tabpanel" aria-labelledby="payment-tab">
+                    <h1>payment</h1>
+                  </div>
+                </div>
+        </div>
        </div>
-        </div>
-        </div>
+       
+       
+       </div>
+       
         {% endblock %}

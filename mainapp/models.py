@@ -1,6 +1,8 @@
+import uuid
 from django.db import models
 from django.contrib.auth.models import User
 from django.db.models.deletion import CASCADE
+from django.utils import timezone
 
 # Create your models here.
 
@@ -15,3 +17,4 @@ class Customer(models.Model):
 
     def __str__(self):
         return self.user.get_full_name()  
+

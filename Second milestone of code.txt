@@ -1,0 +1,23 @@
+Payment Method Page
+Styling
+Stripe Info
+Show Payment Details
+Create Job Page
+Layout Job Page
+Job and Category Models
+Step 1 - Form
+Step 1 - Function
+Auto Step Jump
+Step 2 - Form
+Step 2 - Google Map
+Step 2 - Function
+Step 3 - Form
+Step 3 - Function
+Step 4 - Distance and Price
+Step 4 - Payment
+Create Jobs Page
+Styling Jobs Page
+Job Details Page
+Job Details Page - Layout
+Job Details - Map
+Cancel Job
