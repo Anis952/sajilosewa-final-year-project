@@ -57,19 +57,19 @@
               <div class="card-body">
                 <ul class="nav nav-tabs nav-justified align-center  " id="myTab" role="tablist">
                   <li class="nav-item" role="presentation">
-                    <button class="active" id="home-info-tab" data-bs-toggle="tab" data-bs-target="#home-info"  role="tab" aria-controls="home-info" aria-selected="true">Item info</button>
+                    <button class=" {% if step == 1 %}active {% endif %}" id="home-info-tab" data-bs-toggle="tab" data-bs-target="#home-info"  role="tab" aria-controls="home-info" aria-selected="true">Item info</button>
                   </li>
                   <i class="fas fa-chevron-right"></i>
                   <li class="nav-item" role="presentation">
-                    <button id="pickup-tab" data-bs-toggle="tab" data-bs-target="#pickup" type="button" role="tab" aria-controls="pickup" aria-selected="false">Pickup</button>
+                    <button  class=" {% if step == 2 %}active {% endif %}" id="pickup-tab" data-bs-toggle="tab" data-bs-target="#pickup" type="button" role="tab" aria-controls="pickup" aria-selected="false">Pickup</button>
                   </li>
                   <i class="fas fa-chevron-right"></i>
                   <li class="nav-item" role="presentation">
-                    <button  id="delivery-tab" data-bs-toggle="tab" data-bs-target="#delivery" type="button" role="tab" aria-controls="delivery" aria-selected="false">Delivery</button>
+                    <button  class=" {% if step == 3 %}active {% endif %}" id="delivery-tab" data-bs-toggle="tab" data-bs-target="#delivery" type="button" role="tab" aria-controls="delivery" aria-selected="false">Delivery</button>
                   </li>
                   <i class="fas fa-chevron-right"></i>
                   <li class="nav-item" role="presentation">
-                    <button  id="payment-tab" data-bs-toggle="tab" data-bs-target="#payment" type="button" role="tab" aria-controls="payment" aria-selected="false">Payment</button>
+                    <button  class=" {% if step == 4 %}active {% endif %}" id="payment-tab" data-bs-toggle="tab" data-bs-target="#payment" type="button" role="tab" aria-controls="payment" aria-selected="false">Payment</button>
                   </li>
                 </ul>
       
@@ -78,7 +78,7 @@
                 <!-- Steps forms -->
                 <b>CEATE A JOB</b>
                 <div class="tab-content" id="myTabContent">
-                  <div class="tab-pane fade show active" id="home-info" role="tabpanel" aria-labelledby="home-info-tab">
+                  <div class="tab-pane fade  {% if step == 1 %}show active {% endif %} id="home-info" role="tabpanel" aria-labelledby="home-info-tab">
                     <h1>Item info</h1>
 
                     <form method="POST" enctype="multipart/form-data">
@@ -96,13 +96,13 @@
 
 
 
-                  <div class="tab-pane fade" id="pickup" role="tabpanel" aria-labelledby="pickup-tab">
+                  <div class="tab-pane fade  {% if step == 2 %}show active {% endif %}" id="pickup" role="tabpanel" aria-labelledby="pickup-tab">
                     <h1>Pickup</h1>
                   </div>
-                  <div class="tab-pane fade" id="delivery" role="tabpanel" aria-labelledby="delivery-tab">
+                  <div class="tab-pane fade  {% if step == 3 %}show active {% endif %} " id="delivery" role="tabpanel" aria-labelledby="delivery-tab">
                     <h1>Delivery</h1>
                   </div>
-                  <div class="tab-pane fade" id="payment" role="tabpanel" aria-labelledby="payment-tab">
+                  <div class="tab-pane fade  {% if step == 4 %}show active {% endif %} " id="payment" role="tabpanel" aria-labelledby="payment-tab">
                     <h1>payment</h1>
                   </div>
                 </div>
