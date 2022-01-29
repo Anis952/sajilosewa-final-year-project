@@ -1,5 +1,6 @@
 # import firebase_admin
 # from firebase_admin import credentials,auth
+from multiprocessing.dummy import current_process
 import stripe
 from django.shortcuts import render,redirect
 from django.contrib.auth.decorators import login_required
@@ -9,6 +10,7 @@ from django.contrib import messages
 from django.contrib.auth.forms import PasswordChangeForm
 from django.contrib.auth import update_session_auth_hash
 from django.conf import Settings, settings
+from mainapp.models import *
 
 # cred = credentials.Certificate(Settings.FIREBASE_ADMIN_CREDENTIAL)
 # firebase_admin.initialize_app(cred)
@@ -123,15 +125,29 @@ def payment_method_page(request):
 
 @login_required(login_url="/sign-in/?next=/customer/")
 def create_job_page(request):
-    if not request.user.customer.stripe_payment_method_id:
+    current_customer = request.user.customer
+
+
+    if not  current_customer.stripe_payment_method_id:
         return redirect(reverse('customer:payment_method'))
 
        
+    creating_job = Job.objects.filter(customer=current_customer,status=Job.CREATING_STATUS).last()
+    step1_form = forms.JobCreateStep1Form(instance=creating_job)
 
-    step1_form = forms.JobCreateStep1Form()
+    if request.method == "POST":
+        if request.POST.get('step')=='1':
+            step1_form = forms.JobCreateStep1Form(request.POST,request.FILES,instance=creating_job)
+            if step1_form.is_valid():
+                creating_job = step1_form.save(commit=False)
+                creating_job.customer =  current_customer
+                creating_job.save()
+                return redirect(reverse('customer:create_job'))
+
 
     return render(request, 'customer/create_job.html',{
-        "step1_form":step1_form
+        "step1_form":step1_form,
+        "job": creating_job,
 
     }) 
 
