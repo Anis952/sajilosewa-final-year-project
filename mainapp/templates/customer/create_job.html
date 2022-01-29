@@ -98,6 +98,22 @@
 
                   <div class="tab-pane fade  {% if step == 2 %}show active {% endif %}" id="pickup" role="tabpanel" aria-labelledby="pickup-tab">
                     <h1>Pickup</h1>
+
+                    <form method="POST" enctype="multipart/form-data">
+                      <b class="text-secondary">pickup information</b><br/>
+                      <div class="card bg-white mt-2 mb-5">
+                        <div class="card-body">
+                          {% csrf_token %}
+                          {% bootstrap_form step2_form %}
+                        </div>
+                      </div>
+                      <input type="hidden" name=step value="2">
+                      <button type="button" class="btn btn-outline-dark"
+                        onclick="$('#home-info-tab').tab('home-info');">Back</button>
+                      <button type="submit" class="btn btn-dark">Save&continue</button>
+                    </form>
+
+
                   </div>
                   <div class="tab-pane fade  {% if step == 3 %}show active {% endif %} " id="delivery" role="tabpanel" aria-labelledby="delivery-tab">
                     <h1>Delivery</h1>
