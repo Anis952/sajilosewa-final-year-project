@@ -135,6 +135,8 @@ def create_job_page(request):
     creating_job = Job.objects.filter(customer=current_customer,status=Job.CREATING_STATUS).last()
     step1_form = forms.JobCreateStep1Form(instance=creating_job)
     step2_form = forms.JobCreateStep2Form(instance=creating_job)
+    step3_form = forms.JobCreateStep3Form(instance=creating_job)
+    
 
     if request.method == "POST":
         if request.POST.get('step')=='1':
@@ -145,9 +147,24 @@ def create_job_page(request):
                 creating_job.save()
                 return redirect(reverse('customer:create_job'))
 
+        elif request.POST.get('step') == '2':
+            step2_form = forms.JobCreateStep2Form(request.POST, instance=creating_job)
+            if step2_form.is_valid():
+                creating_job = step2_form.save()
+                return redirect(reverse('customer:create_job'))
+
+        elif request.POST.get('step') == '3':
+            step3_form = forms.JobCreateStep3Form(request.POST, instance=creating_job)
+            if step3_form.is_valid():
+                creating_job = step3_form.save()
+                return redirect(reverse('customer:create_job'))
     # Determine the current step
     if not creating_job:
         current_step = 1
+    elif creating_job.delivery_name:
+        current_step = 4
+    elif creating_job.pickup_name:
+        current_step = 3
     else:
         current_step = 2
 
@@ -158,6 +175,7 @@ def create_job_page(request):
         "step":current_step,
         "step1_form":step1_form,
         "step2_form":step2_form,
+        "step3_form":step3_form,
 
     }) 
 
