@@ -85,7 +85,9 @@ class Job(models.Model):
 
 
   #step 4
-  
+  duration = models.IntegerField(default=0)
+  distance = models.FloatField(default=0)
+  price = models.FloatField(default=0)
 
 
 
