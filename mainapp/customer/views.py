@@ -1,5 +1,7 @@
 # import firebase_admin
 # from firebase_admin import credentials,auth
+from xml.dom.minidom import Identified
+import requests
 from multiprocessing.dummy import current_process
 import stripe
 from django.shortcuts import render,redirect
@@ -154,10 +156,66 @@ def create_job_page(request):
                 return redirect(reverse('customer:create_job'))
 
         elif request.POST.get('step') == '3':
+            
             step3_form = forms.JobCreateStep3Form(request.POST, instance=creating_job)
             if step3_form.is_valid():
+                try:
+                    r = requests.get("https://maps.googleapis.com/maps/api/distancematrix/json?origins={}&destinations={}&mode=transit&key={}".format(
+                        creating_job.pickup_address,
+                        creating_job.delivery_address,
+                        settings.GOOGLE_MAP_API_KEY,
+                    ))
+
+                    distance = r.json()['rows'][0]['elements'][0]['distance']['value']
+                    duration = r.json()['rows'][0]['elements'][0]['duration']['value']
+                    creating_job.distance = round(distance / 1000, 2)
+                    creating_job.duration = int(duration / 60)
+                    creating_job.price = creating_job.distance * 1 # $1 per km
+                    creating_job.save()
+
+                    
+                    print(r.json()['row'])
+                except Exception as e:
+                    print(e)
+                    messages.error(request, "Unfortunately, we do not support shipping at this distance")
+
+
                 creating_job = step3_form.save()
                 return redirect(reverse('customer:create_job'))
+
+
+        elif request.POST.get('step') == '4':
+            if creating_job.price:
+                try:
+                    
+                    payment_intent = stripe.PaymentIntent.create(
+                    amount=int(creating_job.price * 100),
+                    currency='usd',
+                    customer=current_customer.stripe_customer_id,
+                    payment_method=current_customer.stripe_payment_method_id,
+                    off_session=True,
+                    confirm=True,
+                    )
+
+                    Transaction.objects.create(
+                        stripe_payment_intent_id = payment_intent['id'],
+                        job = creating_job,
+                        
+                    )
+
+                    creating_job.status = Job.PROCESSING_STATUS
+                    creating_job.save()
+
+                    return redirect(reverse('customer:home'))
+
+                except stripe.error.CardError as e:
+                    err = e.error
+                    # Error code will be authentication_required if authentication is needed
+                    print("Code is: %s" % err.code)
+                    payment_intent_id = err.payment_intent['id']
+                    payment_intent = stripe.PaymentIntent.retrieve(payment_intent_id)
+
+
     # Determine the current step
     if not creating_job:
         current_step = 1
@@ -176,6 +234,7 @@ def create_job_page(request):
         "step1_form":step1_form,
         "step2_form":step2_form,
         "step3_form":step3_form,
+        "GOOGLE_MAP_API_KEY": settings.GOOGLE_MAP_API_KEY
 
     }) 
 

@@ -4,7 +4,7 @@
 {% block head %}
 
 <script
-src="https://maps.googleapis.com/maps/api/js?key=AIzaSyASZ4TlfljiNEhpRfg_ed5n7fUzu9wJUpw&callback=initMap&v=weekly"
+src="https://maps.googleapis.com/maps/api/js?key={{ GOOGLE_MAP_API_KEY }}&callback=initMap&v=weekly"
 async
 ></script>
 <style>
@@ -203,6 +203,30 @@ async
                    <!-- Steps 4 -->
                   <div class="tab-pane fade  {% if step == 4 %}show active {% endif %} " id="payment" role="tabpanel" aria-labelledby="payment-tab">
                     <h1>payment</h1>
+                    <form method="POST">
+                      <b class="text-secondary">Payment Method</b>
+                      <div class="card bg-white mt-2 mb-5">
+                        <div class="card-body">
+                          {% csrf_token %}
+                          <div class="form-group">
+                            <label>Your Credit/Debit Card</label>
+                            <input class="form-control" value="**** **** **** {{ request.user.customer.stripe_card_last4 }}"
+                              disabled>
+                          </div>
+                          <div class="form-group">
+                            <label>Price</label>
+                            <input class="form-control" value="Rs{{ job.price }}" disabled>
+                          </div>
+                        </div>
+                      </div>
+                      <input type="hidden" name="step" value="4">
+                      <button type="button" class="btn btn-outline-warning"
+                        onclick="$('#pills-delivery-tab').tab('show');">Back</button>
+                      <button type="submit" class="btn btn-warning">Create Job</button>
+                    </form>
+
+
+                    </form>
                   </div>
                 </div>
         </div>
