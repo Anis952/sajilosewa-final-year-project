@@ -89,6 +89,9 @@ class Job(models.Model):
   distance = models.FloatField(default=0)
   price = models.FloatField(default=0)
 
+  #extra infrmation
+
+  
 
 
   def __str__(self):
