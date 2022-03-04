@@ -1,5 +1,6 @@
 # import firebase_admin
 # from firebase_admin import credentials,auth
+from http.client import PROCESSING
 from xml.dom.minidom import Identified
 import requests
 from multiprocessing.dummy import current_process
@@ -279,4 +280,19 @@ def archived_jobs_page(request):
 
     return render(request, 'customer/jobs.html', {
         "jobs": jobs
+    })
+
+@login_required(login_url="/sign-in/?next=/customer/")
+def job_page(request, job_id):
+    job = Job.objects.get(id=job_id)
+
+    if request.method == "POST" and job.status == job.PROCESSING_STATUS:
+        job.status = Job.CANCELED_STATUS
+        job.save()
+        return redirect(reverse('customer:archived_jobs'))
+
+
+
+    return render(request, 'customer/job.html', {
+        "job": job
     })
