@@ -111,7 +111,7 @@ async
                 <div class="tab-content" id="myTabContent">
 
                  <!-- Steps 1 -->
-                  <div class="tab-pane fade  {% if step == 1 %}show active {% endif %} id="home-info-tab" role="tabpanel" aria-labelledby="home-info-tab">
+                  <div class="tab-pane fade {% if step == 1 %}show active {% endif %}" id="home-info" role="tabpanel" aria-labelledby="home-info-tab">
                     <h1>Item info</h1>
 
                     <form method="POST" enctype="multipart/form-data">
@@ -140,9 +140,9 @@ async
                           <div class ="row">
                             <div class="col-lg-8">
                               {% csrf_token %}
-                              {% bootstrap_form step2_form exclude='pickup_lat, pickup_lng' %}
-                              <input hidden id="pickup_lat" name="pickup_lat" value="{{ job.pickup_lat }}">
-                              <input hidden id="pickup_lng" name="pickup_lng" value="{{ job.pickup_lng }}">
+                              {% bootstrap_form step2_form  %}
+                              <input  name="pickup_lat" value="{{ job.pickup_lat }}">
+                              <input  name="pickup_lng" value="{{ job.pickup_lng }}">
                             </div>
                             <div class="col-lg-4">
                               <div id="pickup-map"></div>
@@ -175,9 +175,9 @@ async
                           <div class ="row">
                             <div class="col-lg-8">
                               {% csrf_token %}
-                              {% bootstrap_form step3_form exclude='delivery_lat, delivery_lng' %}
-                              <input hidden id="delivery_lat" name="delivery_lat" value="{{ job.delivery_lat }}">
-                              <input hidden id="delivery_lng" name="delivery_lng" value="{{ job.delivery_lng }}">
+                              {% bootstrap_form step3_form  %}
+                              <input  name="delivery_lat" value="{{ job.delivery_lat }}">
+                              <input  name="delivery_lng" value="{{ job.delivery_lng }}">
                             </div>
                             <div class="col-lg-4">
                               <div id="delivery-map"></div>
@@ -240,8 +240,8 @@ async
   var pickupLat = parseFloat(" {{ job.pickup_lat }} ");
   var pickupLng = parseFloat(" {{ job.pickup_lng }} ");
 
-  var deliveryLat = parseFloat('{{ job.delivery_lat }}');
-  var deliveryLng = parseFloat('{{ job.delivery_lng }}');
+  var deliveryLat = parseFloat("{{ job.delivery_lat }}");
+  var deliveryLng = parseFloat("{{ job.delivery_lng }}");
 
 
 function initMapByType(type, initLat, initLng) {

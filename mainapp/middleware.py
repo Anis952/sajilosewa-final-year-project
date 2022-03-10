@@ -1,4 +1,4 @@
-from .models import Customer
+from .models import Courier, Customer
 
 class SimpleMiddleware:
     def __init__(self, get_response):
@@ -10,7 +10,10 @@ class SimpleMiddleware:
         # the view (and later middleware) are called.
 
         if request.user.is_authenticated and not hasattr(request.user, 'customer'):
-            Customer.objects.create(user=request.user)   
+            Customer.objects.create(user=request.user)
+
+        if request.user.is_authenticated and not hasattr(request.user, 'courier'):
+            Courier.objects.create(user=request.user)     
 
         response = self.get_response(request)
 

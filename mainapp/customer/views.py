@@ -191,7 +191,7 @@ def create_job_page(request):
                     print(r.json()['row'])
                 except Exception as e:
                     print(e)
-                    messages.error(request, "Unfortunately, we do not support shipping at this distance")
+                    # messages.error(request, "Unfortunately, we do not support shipping at this distance")
 
 
                 creating_job = step3_form.save()
