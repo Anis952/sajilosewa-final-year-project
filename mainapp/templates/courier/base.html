@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Courier | chitocharito</title>
+ 
+    {% load bootstrap5 %}
+    {% bootstrap_css %}
+    {% bootstrap_javascript %}
+    {% bootstrap_messages %}
+
+    <script>
+        let vh = window.innerHeight * 0.01;
+        document.documentElement.style.setProperty('--vh','${vh}px');
+
+
+    </script>
+
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.9.0/css/all.css">
+ 
+  <style>
+      #content{
+          height:calc(var(--vh, 1vh) * 100);
+      }
+
+
+  </style>
+
+  {% block head %} {% endblock %}
+</head>
+
+<body>
+<div id="content">
+    {% block content %} {% endblock %}
+</div>
+  
+
+
+    
+</body>
+</html>
