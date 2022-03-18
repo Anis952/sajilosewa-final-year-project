@@ -1,24 +1,166 @@
 {% extends 'courier/base.html'  %}
  {% block head %}
- <script
- src="https://maps.googleapis.com/maps/api/js?key={{ GOOGLE_MAP_API_KEY }}&callback=initMap&v=weekly"
- async
- ></script>
- <script>
- function initMap() {
+ <!DOCTYPE html>
+<html>
+  <head>
+    <title>Simple Map</title>
+    <meta name="viewport" content="initial-scale=1.0">
+    <meta charset="utf-8">
+    <style>
+      /* Always set the map height explicitly to define the size of the div
+       * element that contains the map. */
+      #map {
+        height: 100%;
+      }
+      /* Optional: Makes the sample page fill the window. */
+      html, body {
+        height: 100%;
+        margin: 0;
+        padding: 0;
+      }
+      #job-details{
+        display: none;
+      }
+    </style>
+  </head>
+  <body>
     
-    const map = new google.maps.Map(document.getElementById("map"), {
-      zoom: 13,
-      center: { lat: 41.85, lng: -87.65 },
-    });
+    <!-- <div id="job-detail" class="card">
+      <div class="card-body p-2">
+        <div class="media">
+          <img id="job-photo" class="rounded-lg mr-3" width="50px" height="50px">
+          <div class="media-body">
+            <b id="job-name"></b>
+            <div class="d-flex">
+              <div class="flex-grow-1 mr-2">
+    
+                <small class="text-sucess">
+                  <i class="fas fa-car"></i> <span id="distance"></span> km
+                  <i class="far fa-clock ml-2"></i> <span id="duration"></span> mins
+    
+                </small>
+                <div class="d-flex align-items-center mt-2">
+                  <i class="fas fa-map-marked-alt"></i>
+                  <small id="pickup-address" class="text-secondary ml-2"></small>
+    
+                </div>
+                <div class="d-flex align-items-center mt-2">
+                  <i class="fas fa-flag-checkered"></i>
+                  <small id="delivery-address" class="text-secondary ml-2"></small>
+    
+                </div>
+    
+              </div>
+           rs<h3 id="price"></h3>
+            </div>
+    
+          </div>
+        </div>
+        </div>
+      </div>
+    </div> -->
    
-  }
+    <script>
+     
+      function initMap() {
+        map = new google.maps.Map(document.getElementById('map'), {
+          center: {lat: 28.3949, lng:84.1240},
+          zoom: 8
+        });
+     // Get available jobs via API
+    fetch("{% url 'courier:available_jobs_api' %}")
+      .then(response => response.json())
+      .then(json => {
+        console.log(json);
 
- </script>
+        for (let i = 0; i < json.jobs.length; i++) {
+          const job = json.jobs[i];
+          const position = { lat: job.pickup_lat, lng: job.pickup_lng };
+          const marker = new google.maps.Marker({
+            position,
+            map,
+          });
+          
+          new google.maps.InfoWindow({
+            content: "<small><b>" + job.name + "</b></small><br/><small>" + job.distance + " Km</small>"
+          }).open(map, marker);
+
+          marker.addListener("click", () => {
+            showJobDetails(job);
+          });
+          function showJobDetails(job) {
+      $("#job-details").css("display", "block");
+      $("#job-name").html(job.name);
+    }
+
+
+        }
+      
+      })
+    }
+  
+   
+  
+    </script>
+    <div id="map"></div>
+    <div class="d-flex flex-column h-100" style="padding-buttom:60px">
+
+
+      <div id="job-detail" class="card">
+        <div class="card-body p-2">
+          <div class="media">
+            <img id="job-photo" class="rounded-lg mr-3" width="50px" height="50px">
+            <div class="media-body">
+              <b id="job-name"></b>
+              <div class="d-flex">
+                <div class="flex-grow-1 mr-2">
+      
+                  <small class="text-sucess">
+                    <i class="fas fa-car"></i> <span id="distance"></span> km
+                    <i class="far fa-clock ml-2"></i> <span id="duration"></span> mins
+      
+                  </small>
+                  
+                  <div class="d-flex align-items-center mt-2">
+                    <i class="fas fa-map-marked-alt"></i>
+                    <small id="pickup-address" class="text-secondary ml-2"></small>
+      
+                  </div>
+                  <div class="d-flex align-items-center mt-2">
+                    <i class="fas fa-flag-checkered"></i>
+                    <small id="delivery-address" class="text-secondary ml-2"></small>
+      
+                  </div>
+      
+                </div>
+             rs<h3 id="price"></h3>
+              </div>
+      
+            </div>
+          </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDSBeQ4WCz7HwCoTuOkT4pGJOPG_osz4DE&callback=initMap"
+    async defer></script>
+  </body>
+</html>
+
 
 <style>
+  .gm-ui-hover-effect{
+    display: none !important;
+  }
     #map {
         flex: 1;
+    }
+    small{
+      font-size: 12px;
+      line-height:1.2rem;
+    }
+    .card{
+      border: none;
     }
 </style>
 
@@ -29,9 +171,7 @@
 
 {% block content %}
 
-<div class="d-flex flex-column h-100" style="padding-buttom:60px">
-<div id="map"></div>
-</div>
+
 
 {% include 'courier/bottom_tabs.html' %}
 

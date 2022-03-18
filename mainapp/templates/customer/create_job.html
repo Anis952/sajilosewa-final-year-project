@@ -88,7 +88,7 @@ async
               <div class="card-body">
                 <ul class="nav nav-tabs nav-justified align-center  " id="myTab" role="tablist">
                   <li class="nav-item" role="presentation">
-                    <button class=" {% if step == 1 %}active {% endif %}" id="home-info-tab" data-bs-toggle="tab" data-bs-target="#home-info"  role="tab" aria-controls="home-info" aria-selected="true">Item info</button>
+                    <button class=" {% if step == 1 %} show active {% endif %}" id="home-info-tab" data-bs-toggle="tab" data-bs-target="#home-info"  role="tab" aria-controls="home-info" aria-selected="true">Item info</button>
                   </li>
                   <i class="fas fa-chevron-right"></i>
                   <li class="nav-item" role="presentation">
@@ -111,7 +111,7 @@ async
                 <div class="tab-content" id="myTabContent">
 
                  <!-- Steps 1 -->
-                  <div class="tab-pane fade {% if step == 1 %}show active {% endif %}" id="home-info" role="tabpanel" aria-labelledby="home-info-tab">
+                  <div class="tab-pane fade {% if step == 1 %}show active {% endif %}" id="home-info" role="tabpanel" aria-labelledby="home-info-tab" >
                     <h1>Item info</h1>
 
                     <form method="POST" enctype="multipart/form-data">
@@ -119,7 +119,13 @@ async
                       <div class="card bg-white mt-2 mb-5">
                         <div class="card-body">
                           {% csrf_token %}
-                          {% bootstrap_form step1_form %}
+                          {% bootstrap_form step1_form  %}
+                          <div class="form-check">
+                            <input class="form-check-input" type="checkbox" value="" id="flexCheckChecked" checked>
+                            <label class="form-check-label" for="flexCheckChecked">
+                              Fragile
+                            </label>
+                          </div>
                         </div>
                       </div>
                       <input type="hidden" name=step value="1">
@@ -201,7 +207,7 @@ async
                   </div>
 
                    <!-- Steps 4 -->
-                  <div class="tab-pane fade  {% if step == 4 %}show active {% endif %} " id="payment" role="tabpanel" aria-labelledby="payment-tab">
+                  <div class="tab-pane fade nav link {% if step == 4 %}show active {% endif %} " id="payment" role="tabpanel" aria-labelledby="payment-tab" aria-current="page" >
                     <h1>payment</h1>
                     <form method="POST">
                       <b class="text-secondary">Payment Method</b>

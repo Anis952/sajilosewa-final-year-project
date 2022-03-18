@@ -15,5 +15,5 @@ def home(request):
 @login_required(login_url="/sign-in/?next=/courier/")
 def available_job_page(request):
     return render(request, 'courier/available_jobs.html',{
-        # "GOOGLE_MAP_API_KEY":settings.GOOGLE_MAP_API_KEY
+        "GOOGLE_MAP_API_KEY":settings.GOOGLE_MAP_API_KEY
     }) 

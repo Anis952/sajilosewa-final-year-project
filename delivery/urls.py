@@ -5,7 +5,7 @@ from django.contrib.auth import views as auth_views
 from delivery.settings import MEDIA_ROOT 
 from mainapp import views
 from mainapp.customer import views as customer_views
-from mainapp.courier import views as courier_views
+from mainapp.courier import views as courier_views, apis as courier_apis
 from django.conf import settings
 from django.conf.urls.static import static
 
@@ -26,7 +26,9 @@ customer_urlpatters = [
 courier_urlpatters = [
     path('', courier_views.home, name="home"),
     path('jobs/available', courier_views.available_job_page, name="available_jobs"),
-    
+
+   path('api/jobs/available/', courier_apis.available_jobs_api, name="available_jobs_api"),
+   path('/jobs/available/', courier_apis.available_jobs_api, name="available_jobs")
 ]
 
 

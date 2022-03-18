@@ -19,6 +19,7 @@
 
         
           <a class="navbar-brand" href="/">Chito Charito</a>
+          
           {% if not request.user.is_authenticated %}
 
           <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -33,6 +34,8 @@
               <li class="nav-item"  {% if request.GET.next == '/courier/' %}active{% endif %}>
                 <a class="nav-link active" aria-current="page" href="/sign-in/?next=/courier/">Courier</a>
               </li>
+              
+              
               <!-- <li class="nav-item dropdown">
                 <a class="nav-link dropdown-toggle" href="#" aria-expanded="false">
                   Gudiance
