@@ -25,10 +25,15 @@ customer_urlpatters = [
 
 courier_urlpatters = [
     path('', courier_views.home, name="home"),
-    path('jobs/available', courier_views.available_job_page, name="available_jobs"),
+    path('jobs/available', courier_views.available_jobs_page, name="available_jobs"),   
+    path('jobs/available/<id>/', courier_views.available_job_page, name="available_job"),
+    path('jobs/current/', courier_views.current_job_page, name="current_job"),
+    path('jobs/current/<id>/take_photo/', courier_views.current_job_take_photo_page, name="current_job_take_photo"),
+    
 
-   path('api/jobs/available/', courier_apis.available_jobs_api, name="available_jobs_api"),
-   path('/jobs/available/', courier_apis.available_jobs_api, name="available_jobs")
+    path('api/jobs/available/', courier_apis.available_jobs_api, name="available_jobs_api"),
+
+
 ]
 
 
@@ -36,6 +41,7 @@ courier_urlpatters = [
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+    path('', include('social_django.urls', namespace='social')),
     path('', views.home),
 
     
@@ -47,7 +53,7 @@ urlpatterns = [
 
     path('customer/', include((customer_urlpatters, 'customer'))),
     path('courier/', include((courier_urlpatters, 'courier'))),
-    path('', include('social_django.urls', namespace='social')),
+    
 ]   
 
 

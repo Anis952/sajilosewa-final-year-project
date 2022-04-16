@@ -240,7 +240,6 @@ def create_job_page(request):
     else:
         current_step = 2
 
-
         
     return render(request, 'customer/create_job.html',{
         "job": creating_job,

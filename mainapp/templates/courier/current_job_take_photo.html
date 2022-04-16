@@ -1,0 +1,102 @@
+{% extends 'courier/base.html' %}
+{% load static %}
+{% block head %}
+<script src="{% static 'js/webcam-easy.min.js' %}"></script>
+
+<style>
+    body {
+        background-color: black;
+      }
+    
+      .btn-back {
+        position: fixed;
+        top: 30px;
+        left: 30px;
+      }
+    
+      .buttons {
+        position: fixed;
+        bottom: 20px;
+        left: 0;
+        right: 0;
+        text-align: center;
+      }
+    
+      #take-photo-step {
+        height: 100%;
+        display: flex;
+        align-items: center;
+      }
+    
+      video {
+        width: 100%;
+        height: auto;
+      }
+
+      #upload-step{
+        height:100%;
+        display:none;
+        align-items: center;
+      }
+    
+</style>
+
+{% endblock %}
+
+{% block content %}
+
+<div id="upload-step">
+  <img id="photo">
+  <div class="buttons">
+    <a id="retake-button" class="btn btn-light" href="javascript:void(retake_photo())">Retake</a>
+    <a id="upload-button" class="btn btn-warning" href="javascript:void(upload_photo())">upload
+    
+    </a>
+  </div>
+</div>
+
+<div id="take-photo-step">
+    <video id="webcam" autoplay playsinline></video>
+    <canvas id="canvas" class="d-none"> </canvas>
+   
+    <a href="{% url 'courier:current_job' %}" class="btn-back">  //back to my jobs page from take photo
+        <i class="fas fa-chevron-left text-light"></i>    
+      </a>
+
+
+   <div class="buttons">
+      
+    <a href="javascript:void(take_photo())" class="btn btn-dark">Take a photo</a>
+   </div>
+</div>
+
+<script>
+
+  const webcamElement = document.getElementById('webcam');
+  const canvasElement = document.getElementById('canvas');
+  const webcam = new Webcam(webcamElement, 'enviroment',canvasElement);
+  webcam.start();
+
+
+  function take_photo() {
+    let picture = webcam.snap();
+ 
+
+    $("#photo").attr("src", picture);
+    $("#take-photo-step").css("display", "none");
+    $("#upload-step").css("display", "flex");
+  }
+  function retake_photo() {
+    $("#upload-step").css("display", "none");
+    $("#take-photo-step").css("display", "flex");
+  }
+  function upload_photo(){
+    
+  }
+
+
+
+</script>
+
+
+{% endblock %}

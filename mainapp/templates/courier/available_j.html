@@ -1,0 +1,86 @@
+{% extends 'courier/base.html'  %}
+ {% block head %}
+ <style>
+  .header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 60px;
+    display: flex;
+    align-items: center;
+    padding: 0 20px;
+    background-color: #35d00e;
+    box-shadow: 0 1px 5px rgba(0, 0, 0, 0.2);
+  }
+</style>
+{% load static %}
+<div class="header">
+  <a href="{% url 'courier:available_jobs' %}" class="mr-2">
+    <i class="fas fa-chevron-left text-dark"></i>
+  </a>
+  <h5 class="mt-1 mb-0">Available Jobs</h5>
+</div>
+ <div class="container-fluid" style="padding-top: 80px">
+    <div class="media">
+        {% for Job in job %}
+      <img src="{{ Job.photo.url }}" class="rounded-lg mr-3" width="100" height="100">
+      <div class="media-body">
+        <h4>{{ Job.name }}</h4>
+        <span>{{ Job.get_size_display }} Size</span><br />
+        <span>{{ Job.quantity }} Item(s)</span><br />
+        <span>${{ Job.price }}</span>
+      </div>
+      {% endfor  %}
+    </div>
+    <hr />
+  
+    <div class="d-flex align-items-center text-secondary mb-3">
+      <i class="fas fa-map-marker-alt"></i>
+      {% for Job in job %}
+      <span class="ml-2">{{ Job.pickup_address }}</span>
+      {% endfor %}
+    </div>
+  
+    <div class="d-flex align-items-center text-secondary mb-2">
+      <i class="fas fa-flag-checkered"></i>
+      {% for Job in job %}
+      <span class="ml-2">{{ Job.delivery_address }}</span>
+      {% endfor %}
+    </div>
+    
+    <hr/>
+  
+    <b class="text-secondary">CUSTOMER</b>
+    <div class="media align-items-center mt-2">
+        {% for Job in job %}
+      <img src="{% if Job.customer.avatar %}{{ Job.customer.avatar.url }}{% else %}{% static 'img/avatar.png' %}{% endif %}"
+        class="rounded-circle mr-3" width="60" height="60">
+      <div class="media-body">
+        <h5 class="text-warning">{{ Job.customer.user.get_full_name }}</h5>
+        <span>{{ Job.customer.phone_number }}</span>
+        {% endfor %}
+      </div>
+    </div>
+    <hr />
+  
+    <form method="POST">
+      {% csrf_token %}
+      
+      <button class="btn btn-warning btn-block">Accept This Job</button>
+    </form>
+  
+  </div>
+  
+  
+
+ {% endblock %}
+
+ {% block content %}
+
+
+
+{% include 'courier/bottom_tabs.html' %}
+
+
+{% endblock %}

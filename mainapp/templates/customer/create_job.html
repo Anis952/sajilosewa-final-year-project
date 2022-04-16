@@ -4,9 +4,9 @@
 {% block head %}
 
 <script
-src="https://maps.googleapis.com/maps/api/js?key={{ GOOGLE_MAP_API_KEY }}&callback=initMap&v=weekly"
-async
-></script>
+      src="https://maps.googleapis.com/maps/api/js?key=AIzaSyA36NCQhEhxsxlb4M4KU8SQ0BkznpEEMVg&callback=initMap&libraries=places&v=weekly"
+      async
+    ></script>
 <style>
 
 
@@ -23,7 +23,7 @@ async
     color: orange;
   }
 
-  #pickup-map,
+
   #delivery-map {
     height: 100%;
   }
@@ -146,14 +146,13 @@ async
                           <div class ="row">
                             <div class="col-lg-8">
                               {% csrf_token %}
-                              {% bootstrap_form step2_form  %}
-                              <input  name="pickup_lat" value="{{ job.pickup_lat }}">
-                              <input  name="pickup_lng" value="{{ job.pickup_lng }}">
+                              {% bootstrap_form step2_form exclude='pickup_lat, pickup_lng' %}
+                              <input hidden id="pickup_lat" name="pickup_lat" value="{{ job.pickup_lat }}" />
+                              <input hidden id="pickup_lng" name="pickup_lng" value="{{ job.pickup_lng }}">
                             </div>
                             <div class="col-lg-4">
                               <div id="pickup-map"></div>
                               <div id="pickup-infowindow-content">
-                                <img src="" width="16" height="16" id="pickup-place-icon" />
                                 <span id="pickup-place-name" class="title"></span><br />
                                 <span id="pickup-place-address"></span>
                               </div>
@@ -181,9 +180,9 @@ async
                           <div class ="row">
                             <div class="col-lg-8">
                               {% csrf_token %}
-                              {% bootstrap_form step3_form  %}
-                              <input  name="delivery_lat" value="{{ job.delivery_lat }}">
-                              <input  name="delivery_lng" value="{{ job.delivery_lng }}">
+                              {% bootstrap_form step3_form exclude='delivery_lat, delivery_lng' %}
+                              <input hidden id="delivery_lat" name="delivery_lat" value="{{ job.delivery_lat }}" />
+                              <input hidden id="delivery_lng" name="delivery_lng" value="{{ job.delivery_lng }}">
                             </div>
                             <div class="col-lg-4">
                               <div id="delivery-map"></div>
@@ -243,50 +242,40 @@ async
 
    <script>
 
-  var pickupLat = parseFloat(" {{ job.pickup_lat }} ");
-  var pickupLng = parseFloat(" {{ job.pickup_lng }} ");
+  var pickupLat = parseFloat('{{ job.pickup_lat }} ');
+  var pickupLng = parseFloat('{{ job.pickup_lng }} ');
 
-  var deliveryLat = parseFloat("{{ job.delivery_lat }}");
-  var deliveryLng = parseFloat("{{ job.delivery_lng }}");
+  var deliveryLat = parseFloat('{{ job.delivery_lat }}');
+  var deliveryLng = parseFloat('{{ job.delivery_lng }}');
 
-
-function initMapByType(type, initLat, initLng) {
+  function initMapByType(type,initLat,initLng) {
   const map = new google.maps.Map(document.getElementById(type + "-map"), {
-    center: { lat: initLat || 40.749933, lng: initLng || -73.98633 },
+    center: { lat: initLat|| 40.749933, lng: initLng|| -73.98633 },
     zoom: 13,
-    mapTypeControl: false,
+    
   });
 
-  if (initLat && initLng){
+  if(initLat && initLng){
     new google.maps.Marker({
-      position:new google.maps.LatLng(initLat,initLng),
-      map: map,
+      position: new google.maps.LatLng(initLat,initLng),
+      map:map,
 
     })
-
   }
 
-  const input = document.getElementById("id_"+ type  +"_address");
+  const input = document.getElementById("id_" + type + "_address");
 
-  const biasInputElement = document.getElementById("use-location-bias");
-  const strictBoundsInputElement = document.getElementById("use-strict-bounds");
-  const options = {
-    fields: ["formatted_address", "geometry", "name"],
-    strictBounds: false,
-    types: ["establishment"],
-  };
 
-  map.controls[google.maps.ControlPosition.TOP_LEFT].push(card);
 
-  const autocomplete = new google.maps.places.Autocomplete(input, options);
 
-  // Bind the map's bounds (viewport) property to the autocomplete object,
-  // so that the autocomplete requests use the current map bounds for the
-  // bounds option in the request.
+
+  const autocomplete = new google.maps.places.Autocomplete(input);
+
   autocomplete.bindTo("bounds", map);
 
   const infowindow = new google.maps.InfoWindow();
-  const infowindowContent = document.getElementById(type+ "-infowindow-content");
+  autocomplete.setFields(["address_components", "geometry", "icon", "name"]);
+  const infowindowContent = document.getElementById(type + "-infowindow-content");
 
   infowindow.setContent(infowindowContent);
 
@@ -318,65 +307,27 @@ function initMapByType(type, initLat, initLng) {
 
     marker.setPosition(place.geometry.location);
     marker.setVisible(true);
-    infowindowContent.children[type + "-place-icon"].src = place.icon;
-    infowindowContent.children[type + "-place-name"].textContent = place.name;
-    infowindowContent.children[type + "-place-address"].textContent = address;
-      place.formatted_address;
-    infowindow.open(map, marker);
+        infowindowContent.children[type + "-place-icon"].src = place.icon;
+        infowindowContent.children[type + "-place-name"].textContent = place.name;
+        infowindowContent.children[type + "-place-address"].textContent = address;
+        infowindow.open(map, marker);
 
-    // $("#" + type + "_lat").val(place.geometry.location.lat());
-    //   $("#" + type + "_lng").val(place.geometry.location.lng());
+        $("#" + type + "_lat").val(place.geometry.location.lat());
+        $("#" + type + "_lng").val(place.geometry.location.lng());
+
+
+ 
   });
 
-  // // Sets a listener on a radio button to change the filter type on Places
-  // // Autocomplete.
-  // function setupClickListener(id, types) {
-  //   const radioButton = document.getElementById(id);
-
-  //   radioButton.addEventListener("click", () => {
-  //     autocomplete.setTypes(types);
-  //     input.value = "";
-  //   });
-  // }
-
-  // setupClickListener("changetype-all", []);
-  // setupClickListener("changetype-address", ["address"]);
-  // setupClickListener("changetype-establishment", ["establishment"]);
-  // setupClickListener("changetype-geocode", ["geocode"]);
-  // setupClickListener("changetype-cities", ["(cities)"]);
-  // setupClickListener("changetype-regions", ["(regions)"]);
-  // biasInputElement.addEventListener("change", () => {
-  //   if (biasInputElement.checked) {
-  //     autocomplete.bindTo("bounds", map);
-  //   } else {
-  //     // User wants to turn off location bias, so three things need to happen:
-  //     // 1. Unbind from map
-  //     // 2. Reset the bounds to whole world
-  //     // 3. Uncheck the strict bounds checkbox UI (which also disables strict bounds)
-  //     autocomplete.unbind("bounds");
-  //     autocomplete.setBounds({ east: 180, west: -180, north: 90, south: -90 });
-  //     strictBoundsInputElement.checked = biasInputElement.checked;
-  //   }
-
-  //   input.value = "";
-  // });
-  // strictBoundsInputElement.addEventListener("change", () => {
-  //   autocomplete.setOptions({
-  //     strictBounds: strictBoundsInputElement.checked,
-  //   });
-  //   if (strictBoundsInputElement.checked) {
-  //     biasInputElement.checked = strictBoundsInputElement.checked;
-  //     autocomplete.bindTo("bounds", map);
-  //   }
-
-  //   input.value = "";
-  // });
+ 
 }
 
+
 function initMap() {
-    initMapByType("pickup", pickupLat, pickupLng);
-    initMapByType("delivery", deliveryLat, deliveryLng);
-  }
+      initMapByType("pickup", pickupLat, pickupLng);
+      initMapByType("delivery", deliveryLat, deliveryLng);
+    }
        </script>
+       
        
         {% endblock %}

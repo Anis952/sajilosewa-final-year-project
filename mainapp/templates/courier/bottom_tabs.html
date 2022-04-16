@@ -1,4 +1,6 @@
 <style>
+
+
     .bottom-tabs {
       position: fixed;
       bottom: 0;
@@ -29,16 +31,19 @@
     }
   
     .bottom-tabs>a.active {
-      color: #c7b33f85;
+      color: #52514b85;
     }
   </style>
+  {% url 'courier:available_jobs' as available_jobs_url %}
+  {% url 'courier:current_job' as current_job_url %}
+
 <div class="bottom-tabs d-flex">
-    <a href="#" class="active">
+    <a href="{% url 'courier:available_jobs' %}"  class="{% if request.path == available_jobs_url %}active{% endif %}">
       <i class="fas fa-map-marked-alt"></i>
       <span>Available Jobs</span>
     </a>
-    <a href="#">
-      <i class="fas fa-archive"></i>
+    <a href="{% url 'courier:current_job' %}" >
+      <i  class="{% if request.path == current_job_url%}active{% endif %}"></i>
       <span>My Jobs</span>
     </a>
     <a href="#" >

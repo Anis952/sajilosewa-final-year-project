@@ -137,14 +137,13 @@ MEDIA_URL = '/media/'
 
 
 AUTHENTICATION_BACKENDS = [
-    'social_core.backends.linkedin.LinkedinOAuth2',
-    'social_core.backends.instagram.InstagramOAuth2',
+   
     'social_core.backends.facebook.FacebookOAuth2',
     'django.contrib.auth.backends.ModelBackend',
 ]    
 
 
-SOCIAL_AUTH_FACEBOOK_KEY = "Y101588969039311"
+SOCIAL_AUTH_FACEBOOK_KEY = "4337685043002205"
 SOCIAL_AUTH_FACEBOOK_SECRET = "9b6537858cd0d4ccae39d276d9ef420b"
 SOCIAL_AUTH_FACEBOOK_SCOPE = ['email']
 SOCIAL_AUTH_FACEBOOK_PROFILE_EXTRA_PARAMS = {
@@ -159,7 +158,7 @@ EMAIL_HOST_USER = 'thapaanes03@gmail.com'
 EMAIL_HOST_PASSWORD = 'Anishthapa1@'
 DEFAULT_FROM_EMAIL = 'sajilo sewa <no-reply@delivery.localhost>'
 
-FIREBASE_ADMIN_CREDENTIAL = os.path.join(BASE_DIR,"delivery-ea109-firebase-adminsdk-sz7t3-e2a020d5f3"),
+# FIREBASE_ADMIN_CREDENTIAL = os.path.join(BASE_DIR,"delivery-ea109-firebase-adminsdk-sz7t3-e2a020d5f3"),
 
 
 STRIPE_API_PUBLIC_KEY = "pk_test_51KM2KyIqWedkZUADY2Y4eV6l0n7W1O3TVtaC8goDwrnNPf3SPLgoBoaaVhl0bKZsoUER0Y9xXZa8vjc9kLFfUPvv00pi8gwG5H"
@@ -169,4 +168,4 @@ STRIPE_API_SECRET_KEY = "sk_test_51KM2KyIqWedkZUADPudbYX3UmlQ5bSDYPsCQSVkIJQG9ri
 # "stripe.api_SECRET_key = <sk_test_51KM2KyIqWedkZUADPudbYX3UmlQ5bSDYPsCQSVkIJQG9riIzuGclMR3oedyvjNSwMPuqQrTXITgT01fR1jFtzziX0027TFEhbT>"
 
 
-GOOGLE_MAP_API_KEY = "AIzaSyDSBeQ4WCz7HwCoTuOkT4pGJOPG_osz4DE"
+GOOGLE_MAP_API_KEY = "AIzaSyAyOSMCg_6r4aIs5qNmKLnLIW4VMQOZZds"
