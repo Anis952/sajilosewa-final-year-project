@@ -131,8 +131,8 @@ small {
 <div class="d-flex flex-column h-100" style="padding-bottom: 60px">
   <div class ="text-center">
     <div class="btn-group mt-1 mb-1 align-item-center" role="group">
-      <a href="#" class="btn btn-dark">Current Job</a>
-      <a href="#" class="btn btn-outline-dark">Archived Jobs</a>
+      <a href="{% url 'courier:current_job' %}" class="btn btn-dark">Current Job</a>
+      <a href="{% url 'courier:archived_jobs' %}" class="btn btn-outline-dark">Archived Jobs</a>
     </div>
   </div>
 
@@ -171,8 +171,8 @@ small {
       </div>
 
       <a href="{% url 'courier:current_job_take_photo' job.id %}" class="btn btn-block btn-dark btn-md mt-2">
-        {% comment %} {% if job.status == 'picking' %}Pickup{% else %}Drop-off{% endif %} {% endcomment %}
-       pickup
+        {% if job.status == 'picking' %}Pickup{% else %}Drop-off{% endif %}
+      
     
       </a>
 
