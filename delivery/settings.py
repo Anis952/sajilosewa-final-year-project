@@ -158,14 +158,13 @@ EMAIL_HOST_USER = '#'
 EMAIL_HOST_PASSWORD = '#'
 DEFAULT_FROM_EMAIL = 'sajilo sewa <no-reply@delivery.localhost>'
 
-# FIREBASE_ADMIN_CREDENTIAL = os.path.join(BASE_DIR,"delivery-ea109-firebase-adminsdk-sz7t3-e2a020d5f3"),
+
 
 
 STRIPE_API_PUBLIC_KEY = "#"
 STRIPE_API_SECRET_KEY = "#"
 
 
-# "stripe.api_SECRET_key = <sk_test_51KM2KyIqWedkZUADPudbYX3UmlQ5bSDYPsCQSVkIJQG9riIzuGclMR3oedyvjNSwMPuqQrTXITgT01fR1jFtzziX0027TFEhbT>"
 
 
 GOOGLE_MAP_API_KEY = "#"
